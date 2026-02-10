@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Valentine ❤️</title>
+
+<style>
+body {
+    margin: 0;
+    overflow: hidden;
+    text-align: center;
+    font-family: Arial;
+    background: linear-gradient(to bottom, #ff9a9e, #fad0c4);
+}
+
+h1 {
+    margin-top: 100px;
+    color: white;
+    font-size: 60px;
+    animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+    from { text-shadow: 0 0 10px white; }
+    to { text-shadow: 0 0 30px red; }
+}
+
+/* Trái tim */
+.heart {
+    position: absolute;
+    color: red;
+    font-size: 30px;
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    from { transform: translateY(-10vh); }
+    to { transform: translateY(110vh); }
+}
+</style>
+</head>
+
+<body>
+
+<h1>Happy Valentine ❤️</h1>
+<h2 style="color:white;">Anh yêu em rất nhiều</h2>
+
+<audio autoplay loop>
+    <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mp3">
+</audio>
+
+<script>
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "❤️";
+
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = Math.random() * 3 + 2 + "s";
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, 5000);
+}
+
+setInterval(createHeart, 300);
+</script>
+
+</body>
+</html>
