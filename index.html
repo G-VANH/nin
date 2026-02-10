@@ -2,54 +2,73 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Valentine ❤️</title>
+<title>For You ❤️</title>
 
 <style>
 body{
     margin:0;
     overflow:hidden;
-    text-align:center;
     font-family:Arial;
+    text-align:center;
+    background:black;
     color:white;
 }
 
-/* Ảnh nền slideshow */
+/* Background */
 #bg{
     position:fixed;
     width:100%;
     height:100%;
+    background-image:url("https://i.pinimg.com/736x/4a/3d/53/4a3d53d1ed87b5d2b6c93f9f5a353a2f.jpg");
     background-size:cover;
     background-position:center;
+    filter:brightness(0.5);
     z-index:-1;
-    transition:1s;
 }
 
-/* Chữ chạy */
-#text{
-    margin-top:120px;
-    font-size:50px;
-    text-shadow:0 0 20px red;
-    animation: fade 2s infinite alternate;
-}
-
-@keyframes fade{
-    from{opacity:0.5;}
-    to{opacity:1;}
-}
-
-/* Hộp quà */
+/* Gift */
 #gift{
-    font-size:80px;
+    font-size:90px;
+    margin-top:150px;
     cursor:pointer;
-    margin-top:40px;
+    animation:float 2s infinite alternate;
 }
 
-/* Nội dung sau khi mở quà */
+@keyframes float{
+    from{transform:translateY(0);}
+    to{transform:translateY(-20px);}
+}
+
+/* Nội dung */
 #content{
     display:none;
 }
 
-/* Trái tim bay */
+/* Ảnh 2 bạn */
+.couple{
+    width:200px;
+    border-radius:20px;
+    margin:20px;
+    transform:rotateY(20deg);
+    transition:1s;
+}
+
+.couple:hover{
+    transform:rotateY(0deg) scale(1.1);
+}
+
+/* Nút đồng ý */
+button{
+    padding:15px 30px;
+    font-size:20px;
+    border:none;
+    border-radius:20px;
+    background:red;
+    color:white;
+    cursor:pointer;
+}
+
+/* Trái tim */
 .heart{
     position:absolute;
     color:red;
@@ -68,13 +87,18 @@ body{
 
 <div id="bg"></div>
 
-<div id="text">Anh có điều muốn nói...</div>
-
 <div id="gift" onclick="openGift()">🎁</div>
 
 <div id="content">
-    <h1>Happy Valentine ❤️</h1>
-    <h2 id="timer"></h2>
+    <h1 id="loveText"></h1>
+
+    <!-- 👉 Thêm ảnh 2 bạn tại đây -->
+    <img class="couple" src="https://i.pinimg.com/564x/6c/8a/ab/6c8aab7a2caa2e993b5b3cdbbc2fdc7c.jpg">
+    <img class="couple" src="https://i.pinimg.com/564x/21/3d/28/213d283a1c8e77c57bbab3dc1e7fbc33.jpg">
+
+    <h2>Em làm người yêu anh nhé? ❤️</h2>
+
+    <button onclick="agree()">Em đồng ý 💍</button>
 </div>
 
 <audio id="music" loop>
@@ -83,47 +107,48 @@ body{
 
 <script>
 
-/* ================= ẢNH THAY ĐỔI ================= */
-const images=[
-"https://i.pinimg.com/736x/4a/3d/53/4a3d53d1ed87b5d2b6c93f9f5a353a2f.jpg",
-"https://i.pinimg.com/736x/b1/5a/f9/b15af98f1ad8b5b0bb2745078e1bc105.jpg",
-"https://i.pinimg.com/736x/1d/2c/7e/1d2c7e40f7e6b9275b87b2d7a2c8fa31.jpg"
-];
+/* ===== GÕ CHỮ TỪNG KÝ TỰ ===== */
+const message="Anh đã thích em từ rất lâu...";
 
-let index=0;
-function changeBG(){
-    document.getElementById("bg").style.backgroundImage=`url(${images[index]})`;
-    index=(index+1)%images.length;
+let i=0;
+function typeWriter(){
+    if(i < message.length){
+        document.getElementById("loveText").innerHTML += message.charAt(i);
+        i++;
+        setTimeout(typeWriter,80);
+    }
 }
-setInterval(changeBG,4000);
-changeBG();
 
-/* ================= HỘP QUÀ ================= */
+/* ===== MỞ QUÀ ===== */
 function openGift(){
     document.getElementById("gift").style.display="none";
     document.getElementById("content").style.display="block";
     document.getElementById("music").play();
+    typeWriter();
+    fireworks();
 }
 
-/* ================= ĐẾM THỜI GIAN YÊU ================= */
-/* 👉 Sửa ngày bắt đầu yêu tại đây */
-const startDate=new Date("2025-08-01");
+/* ===== PHÁO HOA ===== */
+function fireworks(){
+    for(let i=0;i<30;i++){
+        const spark=document.createElement("div");
+        spark.innerHTML="✨";
+        spark.style.position="absolute";
+        spark.style.left=Math.random()*100+"vw";
+        spark.style.top=Math.random()*100+"vh";
+        spark.style.fontSize="30px";
+        document.body.appendChild(spark);
 
-function updateTimer(){
-    const now=new Date();
-    const diff=now-startDate;
-
-    const days=Math.floor(diff/(1000*60*60*24));
-    const hours=Math.floor(diff/(1000*60*60)%24);
-    const minutes=Math.floor(diff/(1000*60)%60);
-
-    document.getElementById("timer").innerHTML=
-    `Chúng ta đã bên nhau ${days} ngày ${hours} giờ ${minutes} phút ❤️`;
+        setTimeout(()=>spark.remove(),1000);
+    }
 }
 
-setInterval(updateTimer,1000);
+/* ===== NÚT ĐỒNG Ý ===== */
+function agree(){
+    alert("Anh hứa sẽ yêu em thật nhiều ❤️");
+}
 
-/* ================= TRÁI TIM BAY ================= */
+/* ===== TRÁI TIM BAY ===== */
 function createHeart(){
     const heart=document.createElement("div");
     heart.classList.add("heart");
