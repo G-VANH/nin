@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Valentine ❤️</title>
+
+<style>
+body{
+    margin:0;
+    overflow:hidden;
+    text-align:center;
+    font-family:Arial;
+    color:white;
+}
+
+/* Ảnh nền slideshow */
+#bg{
+    position:fixed;
+    width:100%;
+    height:100%;
+    background-size:cover;
+    background-position:center;
+    z-index:-1;
+    transition:1s;
+}
+
+/* Chữ chạy */
+#text{
+    margin-top:120px;
+    font-size:50px;
+    text-shadow:0 0 20px red;
+    animation: fade 2s infinite alternate;
+}
+
+@keyframes fade{
+    from{opacity:0.5;}
+    to{opacity:1;}
+}
+
+/* Hộp quà */
+#gift{
+    font-size:80px;
+    cursor:pointer;
+    margin-top:40px;
+}
+
+/* Nội dung sau khi mở quà */
+#content{
+    display:none;
+}
+
+/* Trái tim bay */
+.heart{
+    position:absolute;
+    color:red;
+    font-size:25px;
+    animation:fall linear infinite;
+}
+
+@keyframes fall{
+    from{transform:translateY(-10vh);}
+    to{transform:translateY(110vh);}
+}
+</style>
+</head>
+
+<body>
+
+<div id="bg"></div>
+
+<div id="text">Anh có điều muốn nói...</div>
+
+<div id="gift" onclick="openGift()">🎁</div>
+
+<div id="content">
+    <h1>Happy Valentine ❤️</h1>
+    <h2 id="timer"></h2>
+</div>
+
+<audio id="music" loop>
+<source src="https://www.bensound.com/bensound-music/bensound-love.mp3">
+</audio>
+
+<script>
+
+/* ================= ẢNH THAY ĐỔI ================= */
+const images=[
+"https://i.pinimg.com/736x/4a/3d/53/4a3d53d1ed87b5d2b6c93f9f5a353a2f.jpg",
+"https://i.pinimg.com/736x/b1/5a/f9/b15af98f1ad8b5b0bb2745078e1bc105.jpg",
+"https://i.pinimg.com/736x/1d/2c/7e/1d2c7e40f7e6b9275b87b2d7a2c8fa31.jpg"
+];
+
+let index=0;
+function changeBG(){
+    document.getElementById("bg").style.backgroundImage=`url(${images[index]})`;
+    index=(index+1)%images.length;
+}
+setInterval(changeBG,4000);
+changeBG();
+
+/* ================= HỘP QUÀ ================= */
+function openGift(){
+    document.getElementById("gift").style.display="none";
+    document.getElementById("content").style.display="block";
+    document.getElementById("music").play();
+}
+
+/* ================= ĐẾM THỜI GIAN YÊU ================= */
+/* 👉 Sửa ngày bắt đầu yêu tại đây */
+const startDate=new Date("2025-08-01");
+
+function updateTimer(){
+    const now=new Date();
+    const diff=now-startDate;
+
+    const days=Math.floor(diff/(1000*60*60*24));
+    const hours=Math.floor(diff/(1000*60*60)%24);
+    const minutes=Math.floor(diff/(1000*60)%60);
+
+    document.getElementById("timer").innerHTML=
+    `Chúng ta đã bên nhau ${days} ngày ${hours} giờ ${minutes} phút ❤️`;
+}
+
+setInterval(updateTimer,1000);
+
+/* ================= TRÁI TIM BAY ================= */
+function createHeart(){
+    const heart=document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML="❤️";
+
+    heart.style.left=Math.random()*100+"vw";
+    heart.style.animationDuration=Math.random()*3+2+"s";
+
+    document.body.appendChild(heart);
+
+    setTimeout(()=>heart.remove(),5000);
+}
+setInterval(createHeart,300);
+
+</script>
+
+</body>
+</html>
